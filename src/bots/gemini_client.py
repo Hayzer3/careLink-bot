@@ -5,7 +5,7 @@ class GeminiClient:
     def __init__(self, api_key):
         self.llm = ChatGoogleGenerativeAI(
             api_key=api_key,
-            model="gemini-1.5-pro",  # TROCA: gpt-pro por gemini-1.5-pro para evitar o erro 404
+            model="gemini-1.5-pro",  
             temperature=0.7
         )
     
