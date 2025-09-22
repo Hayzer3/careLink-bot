@@ -1,4 +1,4 @@
-from src.bots.maritaca_client import MaritacaClient 
+from src.bots.maritaca_client import MaritacaClient
 from src.bots.gemini_analyzer import GeminiAnalyzer
 from src.services.appointment_manager import AppointmentManager
 from src.services.pdf_processor import PDFProcessor
@@ -6,13 +6,22 @@ from src.utils.semantic_searcher import SemanticSearcher
 import re
 
 class CareLinkBot:
-    def __init__(self, maritaca_api_key, gemini_api_key, pdf_path):  
-        self.maritaca_client = MaritacaClient(api_key=maritaca_api_key)  
+    def __init__(self, maritaca_api_key, gemini_api_key, pdf_path):
+        self.maritaca_client = MaritacaClient(api_key=maritaca_api_key)
         self.gemini_analyzer = GeminiAnalyzer(api_key=gemini_api_key)
         self.appointment_manager = AppointmentManager()
         self.searcher = SemanticSearcher(pdf_path)
     
     def handle_message(self, patient_id, message, image_data=None):
+        # Lógica de verificação de saudações e agradecimentos
+        # Esta é a LÓGICA CORRIGIDA para ir primeiro
+        message_lower = message.lower()
+        if any(keyword in message_lower for keyword in ["obrigado", "obrigada", "tchau", "adeus"]):
+            return "De nada! Fico feliz em ajudar. Se precisar de algo, é só me chamar. 👋"
+        if any(keyword in message_lower for keyword in ["olá", "bom dia", "oi", "ola"]):
+            return "Olá! Como posso te ajudar hoje? 🤖"
+
+        # Se não for uma saudação, o bot continua o fluxo normal
         manual_info = self.searcher.search(message)
         
         if image_data:
@@ -20,7 +29,7 @@ class CareLinkBot:
         
         if manual_info:
             context = "\n".join(manual_info[:3])
-          
+            
             return self.maritaca_client.generate_response(
                 f"Baseado no manual do sistema, responda: {message}",
                 context=context
@@ -47,6 +56,7 @@ class CareLinkBot:
         return response
     
     def _handle_text_intent(self, patient_id, message):
+        # Essa função agora só classifica a intenção, pois saudações foram tratadas antes
         intent = self._classify_intent(message)
         
         if "confirmar_consulta" in intent or "lembrete" in intent:
@@ -56,8 +66,7 @@ class CareLinkBot:
         elif "dúvida_app" in intent or "ajuda" in intent or "problema" in intent:
             return self._provide_guidance(message)
         else:
-           
-            return self.maritaca_client.generate_response(message)
+            return "Desculpe, não entendi. Posso te ajudar com dúvidas sobre o manual ou agendamento de teleconsultas. 🤖"
     
     def _classify_intent(self, message):
         prompt = f"""
@@ -67,5 +76,4 @@ class CareLinkBot:
         Mensagem: {message}
         """
         
-     
         return self.maritaca_client.generate_response(prompt)
