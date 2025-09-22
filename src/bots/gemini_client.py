@@ -1,5 +1,5 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
-from utils.prompts import prompt_baixa_afinidade
+from src.utils.prompts import prompt_baixa_afinidade
 
 class GeminiClient:
     def __init__(self, api_key):

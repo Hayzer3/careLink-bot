@@ -6,7 +6,7 @@ def main():
     bot = CareLinkBot(
         maritaca_api_key=MARITACA_API_KEY,  
         gemini_api_key=GEMINI_API_KEY,
-        pdf_path="data/manuals/Manual-Detalhado-Portal-do-Paciente.pdf"
+        pdf_path="C:/Dev/workspace/careLink-bot/data/manuals/Manual-Detalhado-Portal-do-Paciente.pdf"
     )
     
     questions = [
