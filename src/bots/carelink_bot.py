@@ -20,7 +20,7 @@ class CareLinkBot:
         
         if manual_info:
             context = "\n".join(manual_info[:3])
-            # VOLTA para Maritaca
+          
             return self.maritaca_client.generate_response(
                 f"Baseado no manual do sistema, responda: {message}",
                 context=context
