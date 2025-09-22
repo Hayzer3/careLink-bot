@@ -36,7 +36,7 @@ class GeminiAnalyzer:
             
             Principais telas do app:
             - Login/autenticação
-            - Agendamento de consultas
+            - Agendamento de consultas 
             - Lista de consultas
             - Tela de consulta virtual
             - Configurações/perfil
