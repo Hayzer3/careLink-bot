@@ -10,7 +10,6 @@ class GeminiClient:
         )
     
     def generate_response_for_elderly(self, pergunta, contexto=None):
-        """Gera resposta ESPECIAL para idosos"""
         
         prompt_final = prompt_baixa_afinidade.format(pergunta=pergunta)
         
@@ -21,4 +20,4 @@ class GeminiClient:
             resposta = self.llm.invoke(prompt_final)
             return resposta.content
         except Exception as e:
-            return f"TENTE NOVAMENTE. DEU UM ERRINHO: {str(e)}"
+            return f"Tente novamente. Deu erro: {str(e)}"
