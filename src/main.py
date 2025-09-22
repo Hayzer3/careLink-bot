@@ -10,8 +10,8 @@ def main():
     )
     
     questions = [
-        "Como ligo meu microfone?"
- 
+        "Como ligo meu microfone?",
+        "obrigado"
     ]
     
     for question in questions:
