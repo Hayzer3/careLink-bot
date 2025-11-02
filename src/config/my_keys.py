@@ -4,12 +4,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Só Gemini agora
-GEMINI_API_KEY = "AIzaSyByamR2s03-fCjjY9WRWnfhRIpWMTPaTcs"
+GEMINI_API_KEY = "sua apy key"
 
 # Configuração Oracle para funcionários
 ORACLE_CONFIG = {
-    'user': os.getenv('DB_USER', 'RM566358'),
-    'password': os.getenv('DB_PASSWORD', 'fiap25'), 
+    'user': os.getenv('DB_USER', 'usuario'),
+    'password': os.getenv('DB_PASSWORD', 'senha'), 
     'host': 'oracle.fiap.com.br',
     'port': 1521,
     'sid': 'ORCL'
