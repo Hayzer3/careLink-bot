@@ -1,79 +1,51 @@
-from src.bots.maritaca_client import MaritacaClient
-from src.bots.gemini_analyzer import GeminiAnalyzer
-from src.services.appointment_manager import AppointmentManager
-from src.services.pdf_processor import PDFProcessor
-from src.utils.semantic_searcher import SemanticSearcher
-import re
+from services.gemini_client import GeminiClient
+from services.appointment_manager import AppointmentManager
+from config.my_keys import GEMINI_API_KEY
+from utils.semantic_searcher import SemanticSearcher
+
 
 class CareLinkBot:
-    def __init__(self, maritaca_api_key, gemini_api_key, pdf_path):
-        self.maritaca_client = MaritacaClient(api_key=maritaca_api_key)
-        self.gemini_analyzer = GeminiAnalyzer(api_key=gemini_api_key)
+    def __init__(self, gemini_api_key=None, pdf_path=None):  # ← Torne o parâmetro opcional
+        self.gemini_client = GeminiClient()  # ← REMOVA a passagem da key
         self.appointment_manager = AppointmentManager()
-        self.searcher = SemanticSearcher(pdf_path)
-    
-    def handle_message(self, patient_id, message, image_data=None):
-        # Lógica de verificação de saudações e agradecimentos
-        # Esta é a LÓGICA CORRIGIDA para ir primeiro
-        message_lower = message.lower()
-        if any(keyword in message_lower for keyword in ["obrigado", "obrigada", "tchau", "adeus"]):
-            return "De nada! Fico feliz em ajudar. Se precisar de algo, é só me chamar. 👋"
-        if any(keyword in message_lower for keyword in ["olá", "bom dia", "oi", "ola"]):
-            return "Olá! Como posso te ajudar hoje? 🤖"
+        self.has_manual = False
 
-        # Se não for uma saudação, o bot continua o fluxo normal
-        manual_info = self.searcher.search(message)
-        
-        if image_data:
-            return self._handle_image_analysis(patient_id, image_data, message)
-        
-        if manual_info:
-            context = "\n".join(manual_info[:3])
-            
-            return self.maritaca_client.generate_response(
-                f"Baseado no manual do sistema, responda: {message}",
-                context=context
-            )
-        
-        return self._handle_text_intent(patient_id, message)
-    
-    def _handle_image_analysis(self, patient_id, image_data, message=""):
-        analysis = self.gemini_analyzer.analyze_app_screenshot(image_data)
-        extracted_text = self.gemini_analyzer.extract_text_from_image(image_data)
-        manual_solutions = self.searcher.search(extracted_text)
-        
-        if manual_solutions:
-            context = f"Análise da imagem: {analysis}\n\nSoluções do manual: {' '.join(manual_solutions[:2])}"
+        # busca no manual
+        if pdf_path:
+            try:
+                self.searcher = SemanticSearcher(pdf_path)
+                self.has_manual = True
+                print(" Manual do paciente carregado")
+            except Exception as e:
+                print(f"Erro ao carregar manual: {e}")
         else:
-            context = f"Análise da imagem: {analysis}"
-        
-        
-        response = self.maritaca_client.generate_response(
-            f"Um paciente enviou esta screenshot do aplicativo. {message}",
-            context=context
+            print("Nenhum PDF informado — busca semântica desativada.")
+    
+    def handle_message(self, user_id, message):
+        """Processa mensagem do paciente"""
+        contexto = ""
+
+        if self.has_manual:
+            try:
+                manual_context = self.searcher.search(message)
+                if manual_context:
+                    contexto = f"MANUAL DO SISTEMA: {manual_context}"
+            except Exception as e:
+                print(f"Erro na busca semântica: {e}")
+
+        # verifica se é sobre agendamento
+        if self._is_appointment_related(message):
+            return self.appointment_manager.handle_appointment_request(user_id, message)
+
+        # gera resposta via Gemini
+        resposta = self.gemini_client.generate_response_for_elderly(
+            pergunta=message,
+            contexto=contexto
         )
-        
-        return response
-    
-    def _handle_text_intent(self, patient_id, message):
-        # Essa função agora só classifica a intenção, pois saudações foram tratadas antes
-        intent = self._classify_intent(message)
-        
-        if "confirmar_consulta" in intent or "lembrete" in intent:
-            return self._handle_appointment_confirmation(patient_id)
-        elif "cancelar_consulta" in intent:
-            return self._handle_cancellation(patient_id)
-        elif "dúvida_app" in intent or "ajuda" in intent or "problema" in intent:
-            return self._provide_guidance(message)
-        else:
-            return "Desculpe, não entendi. Posso te ajudar com dúvidas sobre o manual ou agendamento de teleconsultas. 🤖"
-    
-    def _classify_intent(self, message):
-        prompt = f"""
-        Classifique a intenção do usuário entre: 
-        [confirmar_consulta, cancelar_consulta, dúvida_app, lembrete, outros]
-        
-        Mensagem: {message}
-        """
-        
-        return self.maritaca_client.generate_response(prompt)
+
+        return resposta
+
+    def _is_appointment_related(self, message):
+        """Detecta se a mensagem é sobre agendamento"""
+        keywords = ['agendar', 'consulta', 'marcar', 'horário', 'data', 'reagendar', 'cancelar']
+        return any(keyword in message.lower() for keyword in keywords)

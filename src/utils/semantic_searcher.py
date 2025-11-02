@@ -1,6 +1,6 @@
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from src.services.pdf_processor import PDFProcessor
+from services.pdf_processor import PDFProcessor
 
 class SemanticSearcher:
     def __init__(self, pdf_path):
@@ -16,31 +16,22 @@ class SemanticSearcher:
     
     def search(self, query, top_k=3):
         """Encontra os trechos mais relevantes do manual"""
-        # Transforma a pergunta em vetor
+
         query_embedding = self.model.encode([query])
-        
-        # Calcula similaridade com todos os trechos
         similarities = np.dot(self.embeddings, query_embedding.T).flatten()
-        
-        # Pega os top_k mais relevantes
         top_indices = similarities.argsort()[-top_k:][::-1]
         
         return [self.documents[i] for i in top_indices]
 
-# Exemplo de uso simples
 if __name__ == "__main__":
-    searcher = SemanticSearcher("dados/Manual-Detalhado-Portal-do-Paciente.pdf")
+    searcher = SemanticSearcher("data/manuals/Manual-Detalhado-Portal-do-Paciente.pdf")
     
     perguntas_teste = [
         "Como agendar teleconsulta?",
         "Esqueci minha senha",
-        "Não consigo acessar a consulta",
-        "Quais os horários de atendimento?"
     ]
     
     for pergunta in perguntas_teste:
-        print(f"\n🔍 Pergunta: {pergunta}")
+        print(f"\n Pergunta: {pergunta}")
         resultados = searcher.search(pergunta)
-        print(f"📄 Trechos encontrados: {len(resultados)}")
-        for i, resultado in enumerate(resultados, 1):
-            print(f"{i}. {resultado[:100]}...")
+        print(f"Trechos encontrados: {len(resultados)}")

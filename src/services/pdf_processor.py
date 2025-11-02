@@ -1,7 +1,6 @@
-import PyPDF2
 import os
-from langchain.schema import Document
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from PyPDF2 import PdfReader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 class PDFProcessor:
     def __init__(self, pdf_path):
@@ -10,14 +9,17 @@ class PDFProcessor:
     
     def extract_text_from_pdf(self):
         """Extrai texto do PDF manual do sistema"""
+        if not os.path.exists(self.pdf_path):
+            print(f"Arquivo não encontrado: {self.pdf_path}")
+            return ""
+        
         try:
             with open(self.pdf_path, 'rb') as file:
-                pdf_reader = PyPDF2.PdfReader(file)
+                pdf_reader = PdfReader(file)
                 text = ""
-                
-                for page_num in range(len(pdf_reader.pages)):
-                    page = pdf_reader.pages[page_num]
-                    text += page.extract_text()
+
+                for page in pdf_reader.pages:
+                    text += page.extract_text() or ""
                 
                 return text
         except Exception as e:
@@ -29,19 +31,14 @@ class PDFProcessor:
         text = self.extract_text_from_pdf()
         
         if not text:
+            print("Nenhum texto extraído do PDF")
             return []
         
-        # Dividir o texto em chunks menores
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
             chunk_overlap=200
         )
-        
         documents = text_splitter.split_text(text)
+        
+        print(f"Base de conhecimento criada com {len(documents)} segmentos")
         return documents
-
-# Exemplo de uso
-if __name__ == "__main__":
-    processor = PDFProcessor("dados/Manual-Detalhado-Portal-do-Paciente.pdf")
-    knowledge_base = processor.create_knowledge_base()
-    print(f"Base de conhecimento criada com {len(knowledge_base)} segmentos")

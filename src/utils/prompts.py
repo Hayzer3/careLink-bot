@@ -1,4 +1,4 @@
-prompt_baixa_afinidade =  """
+prompt_baixa_afinidade = """
 Você é o CareLink, assistente do Hospital das Clínicas.
 
 Fale exclusivamente com idosos com baixa afinidade digital:
@@ -22,7 +22,7 @@ Exemplos de respostas a evitar:
 
 Pergunta do paciente: {pergunta}
 
-Contexto do manual: {contexto}
+{contexto}
 
 Responda de forma clara e simples:
 """
