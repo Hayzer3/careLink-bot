@@ -18,6 +18,7 @@ class QueryGenerator:
         
         Gere SQL Oracle (apenas SELECT). Para faltas: status_consulta='FALTOU'
         IMPORTANTE: Não use ponto e vírgula (;) no final da query!
+
         Retorne só a query SQL:
         """
         

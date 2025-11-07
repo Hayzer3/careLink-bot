@@ -5,7 +5,7 @@ def main():
     bot = DatabaseBot()  
     
     questions = [
-        "Quantos pacientes temos no sistema?",
+        "Quantas consultas temos no sistema? pesquise pelo id",
     ]
     
     for question in questions:
