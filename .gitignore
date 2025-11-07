@@ -1,4 +1,4 @@
 .env
-
+src/config/config_prod.py
 *__pycache__/
 *venv*/
