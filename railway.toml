@@ -1,9 +1,7 @@
 [build]
 builder = "nixpacks"
 
-[deploy]
-startCommand = "python api_railway.py"
-
-[[services]]
-name = "web"
-port = 8000
+[build.environment]
+PYTHONUTF8 = "1"
+LANG = "C.UTF-8"
+LC_ALL = "C.UTF-8"
