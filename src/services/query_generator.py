@@ -17,15 +17,22 @@ class QueryGenerator:
         Pergunta: {user_question}
         
         Gere SQL Oracle (apenas SELECT). Para faltas: status_consulta='FALTOU'
-        IMPORTANTE: Não use ponto e vírgula (;) no final da query!
-
+        
+        REGRAS IMPORTANTES:
+        - NÃO use ponto e vírgula (;) no final
+        - NÃO use markdown (não use ```sql)
+        - Apenas a query SQL pura, sem formatação
+        
         Retorne só a query SQL:
         """
         
         try:
             response = self.llm.invoke(prompt)
             query = response.content.strip()
+            query = query.replace('```sql', '').replace('```', '').strip()
             query = query.rstrip(';')
+            
+            print(f"Query após limpeza: {query}")
             return query
         except Exception as e:
             print(f"Erro ao gerar query: {e}")
