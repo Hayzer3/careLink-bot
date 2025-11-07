@@ -2,3 +2,29 @@
 src/config/config_prod.py
 *__pycache__/
 *venv*/
+# Arquivos de Ambiente Virtual (VENV)
+# Essas são as pastas que você viu e que "pesam muito"
+/Lib
+/Scripts
+/Include
+/pyvenv.cfg
+
+# Se você criar um venv com nome padrão no futuro
+.venv
+venv/
+*.env
+
+
+
+# Pastas de cache e sistema do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Pastas de IDE (ex: VSCode)
+.vscode/
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
