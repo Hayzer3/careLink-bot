@@ -24,7 +24,7 @@ class SemanticSearcher:
         return [self.documents[i] for i in top_indices]
 
 if __name__ == "__main__":
-    searcher = SemanticSearcher("data/manuals/Manual-Detalhado-Portal-do-Paciente.pdf")
+    searcher = SemanticSearcher("src/data/manuals/Manual-Detalhado-Portal-do-Paciente.pdf")
     
     perguntas_teste = [
         "Como agendar teleconsulta?",
