@@ -1,11 +1,5 @@
 [build]
-builder = "nixpacks"
-buildCommand = "export PYTHONUTF8=1 && export LANG=C.UTF-8 && pip install --no-cache-dir -r requirements.txt"
-
-[build.environment]
-PYTHONUTF8 = "1"
-LANG = "C.UTF-8"
-LC_ALL = "C.UTF-8"
+builder = "docker"
 
 [deploy]
 startCommand = "python src/api_railway.py"
