@@ -1,5 +1,5 @@
 [build]
-builder = "docker"
+builder = "dockerfile"
 
 [deploy]
 startCommand = "python src/api_railway.py"
