@@ -13,7 +13,7 @@ src/config/config_prod.py
 .venv
 venv/
 *.env
-
+pyvenv.cfg
 
 
 # Pastas de cache e sistema do Python
