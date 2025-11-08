@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import os
 # Importa sua classe e suas chaves usando a estrutura do seu projeto
 from src.bots.carelink_bot import CareLinkBot
 from config.my_keys import MARITACA_API_KEY, GEMINI_API_KEY
@@ -8,10 +9,15 @@ print("Inicializando o CareLinkBot para o servidor API...")
 
 # Instanciamos o bot UMA ÚNICA VEZ quando o servidor inicia.
 # Isso é crucial para a performance, para não recarregar o PDF a cada chamada.
+
+# Constrói o caminho do PDF de forma relativa ao diretório de execução do script
+# Assumindo que o script é executado da raiz do projeto (careLink-bot)
+pdf_path = os.path.join(os.getcwd(), "data", "manuals", "Manual-Detalhado-Portal-do-Paciente.pdf")
+
 bot = CareLinkBot(
     maritaca_api_key=MARITACA_API_KEY,
     gemini_api_key=GEMINI_API_KEY,
-    pdf_path="C:/Dev/workspace/careLink-bot/data/manuals/Manual-Detalhado-Portal-do-Paciente.pdf"
+    pdf_path=pdf_path
 )
 
 print("CareLinkBot pronto. Servidor API iniciado.")
