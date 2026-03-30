@@ -2,30 +2,30 @@
 ![](https://img.shields.io/badge/LangChain-0.3.7-green)
 ![](https://img.shields.io/badge/license-MIT-lightgrey)
 
-# 🤖 CareLink - Assistente Digital para Redução de Absenteísmo
+#  CareLink - Assistente Digital para Redução de Absenteísmo
 
 Solução inteligente de atendimento ao paciente desenvolvida para o Hospital das Clínicas, combinando IA generativa com o sistema de teleconsulta existente para reduzir absenteísmo em 20%.
 
-## 🎯 Objetivo do Projeto
+##  Objetivo do Projeto
 
 O CareLink é um assistente digital que ajuda pacientes com baixa afinidade digital a navegar no sistema de teleconsulta, fornece lembretes inteligentes e resolve dúvidas baseando-se no manual oficial do sistema.
 
-## 🔨 Funcionalidades Principais
+##  Funcionalidades Principais
 
-- **🤖 Assistente Conversacional** baseado em Maritaca AI com contexto cultural brasileiro
-- **📄 Análise de Documentos** processamento do manual do sistema via PDF
-- **🖼️ Análise de Imagens** interpretação de screenshots usando Gemini AI
-- **🔔 Sistema de Lembretes** integrado com sistema Java existente
-- **🧠 Busca Semântica** entendimento contextual de perguntas dos pacientes
+- ** Assistente Conversacional** baseado em Maritaca AI com contexto cultural brasileiro
+- ** Análise de Documentos** processamento do manual do sistema via PDF
+- ** Análise de Imagens** interpretação de screenshots usando Gemini AI
+- ** Sistema de Lembretes** integrado com sistema Java existente
+- ** Busca Semântica** entendimento contextual de perguntas dos pacientes
 
-## 🏗️ Arquitetura do Sistema
+## Arquitetura do Sistema
 CareLink Bot → Maritaca AI (conversas) → Gemini (análise visual) → Sistema Java (dados)
 ↓
 Manual PDF (base de conhecimento)
 
 text
 
-## ✔️ Técnicas e Tecnologias Utilizadas
+##  Técnicas e Tecnologias Utilizadas
 
 - **Python 3.8+** - Linguagem principal
 - **LangChain** - Framework para orquestração de LLMs
@@ -34,7 +34,7 @@ text
 - **Sentence Transformers** - Busca semântica em documentos
 - **PyPDF2** - Processamento de manuais PDF
 
-## 📦 Estrutura do Projeto
+##  Estrutura do Projeto
 carelink-bot/
 ├── src/ # Código fonte
 │ ├── bots/ # Módulos do bot
@@ -48,7 +48,7 @@ carelink-bot/
 
 text
 
-## 🛠️ Abrir e Configurar o Projeto
+##  Abrir e Configurar o Projeto
 
 ### 1. Preparar Ambiente Virtual
 
@@ -76,7 +76,7 @@ Coloque o manual PDF em: data/manuals/Manual-Detalhado-Portal-do-Paciente.pdf
 5. Executar o Projeto
 bash
 python -m src.main
-🚀 Como Usar
+ Como Usar
 Exemplo de Interação:
 python
 from src.bots.carelink_bot import CareLinkBot
@@ -91,7 +91,7 @@ print(resposta)
 with open("erro_login.png", "rb") as img:
     resposta = bot.handle_message("paciente123", "Veja esse erro", img.read())
     print(resposta)
-📊 Resultados Esperados
+Resultados Esperados
 Redução de 20% no absenteísmo por consultas
 
 Diminuição de 35% nas dúvidas operacionais
@@ -110,7 +110,7 @@ Este projeto é de uso interno do Complexo HCFMUSP. É proibida a reprodução t
 
 text
 
-## 📝 Principais Mudanças Realizadas:
+##  Principais Mudanças Realizadas:
 
 1. **✅ Título e descrição** atualizados para o projeto CareLink
 2. **✅ Objetivo** focado na redução de absenteísmo do HC
