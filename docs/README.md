@@ -37,12 +37,17 @@ text
 ##  Estrutura do Projeto
 carelink-bot/
 ├── src/
+
 │ ├── bots/ 
+
 │ ├── services/ 
+
 │ └── utils/ 
 
-├── data/ # Dados e recursos
+├── data/ 
+
 │ ├── manuals/
+
 │ └── images/ 
 
 ├── config/ 
