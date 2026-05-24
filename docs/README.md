@@ -36,6 +36,7 @@ text
 
 ##  Estrutura do Projeto
 carelink-bot/
+
 ├── src/
 
 │ ├── bots/ 
