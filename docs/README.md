@@ -36,16 +36,18 @@ text
 
 ##  Estrutura do Projeto
 carelink-bot/
-├── src/ # Código fonte
-│ ├── bots/ # Módulos do bot
-│ ├── services/ # Gerenciadores de serviço
-│ └── utils/ # Utilitários
-├── data/ # Dados e recursos
-│ ├── manuals/ # Manuais PDF
-│ └── images/ # Imagens para análise
-├── config/ # Configurações
-└── tests/ # Testes
+├── src/
+│ ├── bots/ 
+│ ├── services/ 
+│ └── utils/ 
 
+├── data/ # Dados e recursos
+│ ├── manuals/
+│ └── images/ 
+
+├── config/ 
+
+└── tests/ 
 text
 
 ##  Abrir e Configurar o Projeto
