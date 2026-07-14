@@ -61,7 +61,7 @@ text
 ### 1. Preparar Ambiente Virtual
 
 **Windows:**
-```bash
+bash
 python -m venv venv-carelink
 venv-carelink\Scripts\activate
 Mac/Linux:
